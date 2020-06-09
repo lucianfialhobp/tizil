@@ -3,9 +3,8 @@ const robots = {
 }
 
 async function start(){
-    let clips = robots.twitch();
-
-    console.log(clips)
+    let clips = await robots.twitch();
+    
 }
 
 start()

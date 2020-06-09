@@ -10,5 +10,8 @@
   "license": "ISC",
   "devDependencies": {
     "axios": "^0.19.2"
+  },
+  "dependencies": {
+    "twitch-api-v5": "^2.0.4"
   }
 }
