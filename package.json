@@ -1,0 +1,14 @@
+{
+  "name": "jarvis",
+  "version": "1.0.0",
+  "description": "Cria uma compilação de videos da twitch automáticamente",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Lucian Fialho",
+  "license": "ISC",
+  "devDependencies": {
+    "axios": "^0.19.2"
+  }
+}
