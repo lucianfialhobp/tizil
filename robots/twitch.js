@@ -23,7 +23,8 @@ async function robot(){
                
             },
           }).then(function (response) {
-            console.log(response.data)
+            content.clips = response.data.clips
+            state.save(content)
           });
     }
 }
