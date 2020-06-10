@@ -14,7 +14,7 @@ async function robot(){
             period: content.period
         }
 
-        axios({
+         axios({
             method: 'get',
             url: `https://api.twitch.tv/kraken/clips/top?${qs.stringify(data)}`,
             headers: {
@@ -23,9 +23,15 @@ async function robot(){
                
             },
           }).then(function (response) {
-            content.clips = response.data.clips
+            content.clips = createVideoProperty(response.data.clips)
             state.save(content)
           });
+    }
+
+    function createVideoProperty (clips) {
+
+        return clips.map(clip => ({ ...clip, videoMp4url: clip.thumbnails.medium.replace(/-preview-480x272.jpg/, '.mp4') }))
+
     }
 }
 
