@@ -1,15 +1,19 @@
 const axios = require('axios')
 const qs = require('querystring');
-
+const state = require('./state.js')
 
 async function robot(){
+    const content = state.load()
+
     await getMonthClips()
 
     async function getMonthClips(){
-        let data ={
-            channel: 'lucianfialho',
-            period: 'all'
+        // TODO: Verify Channel is required
+        const data = {
+            channel: content.channel,
+            period: content.period
         }
+
         axios({
             method: 'get',
             url: `https://api.twitch.tv/kraken/clips/top?${qs.stringify(data)}`,
@@ -21,16 +25,6 @@ async function robot(){
           }).then(function (response) {
             console.log(response.data)
           });
-        // Client ID:dlpr96izow24qfp1qf5mlbu7ees7we
-
-        // let lastMonthClips = await axios.get('', config).then(function(res){
-        //     console.log(res)
-        // }).catch(function (error) {
-        //     // handle error
-        //     console.log(error);
-        // })
-
-        // console.log(lastMonthClips)
     }
 }
 

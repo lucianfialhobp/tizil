@@ -1,9 +1,13 @@
 const robots = {
-    twitch: require('./robots/twitch.js')
+    input: require('./robots/input.js'),
+    twitch: require('./robots/twitch.js'),
+    state: require('./robots/state.js'),
+
 }
 
 async function start(){
-    let clips = await robots.twitch();
+    robots.input()
+    let clips = await robots.twitch()
     
 }
 
