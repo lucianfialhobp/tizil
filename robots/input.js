@@ -9,6 +9,8 @@ function robot() {
 
   content.channel = askAndReturnChannelName()
   content.period = askAndReturnPeriod()
+  content.game = askAndReturnGame()
+
   state.save(content)
 
   function askAndReturnChannelName() {
@@ -21,6 +23,14 @@ function robot() {
     const selectedPeriodText = period[selectedPeriodIndex]
 
     return selectedPeriodText
+  }
+
+  function askAndReturnGame() {
+    const game = ['Counter-Strike: Global Offensive', 'VALORANT', 'League of Legends']
+    const selectedGameIndex = readline.keyInSelect(game, 'Choose one game to get clips:  ')
+    const selectedGameText = game[selectedGameIndex]
+
+    return selectedGameText
   }
 
 }

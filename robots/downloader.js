@@ -9,7 +9,7 @@ async function robot() {
     
     console.log('> [downloader-robot] Checking temp folder')
     if (!fs.existsSync(dir)){
-        fs.mkdirSync(dir);
+        fs.mkdirSync(dir)
     }else {
         console.log('> [downloader-robot] Cleaning temp folder')
 
@@ -18,27 +18,43 @@ async function robot() {
             for (const file of files) {
               fs.unlink(path.join(dir, file), err => {
                 if (err) throw err;
-              });
+              })
             }
-        });
+        })
+
         console.log('> [downloader-robot] Success temp folder is clean')
     }
 
-    await downloadVideos(content)
+    await downloadVideosAndCreateFiles(content)
 
-    async function downloadVideos(content) {
+    async function downloadVideosAndCreateFiles(content) {
         console.log('> [downloader-robot] Starting download clips...')
-        const promises = content.clips.map(async (clip) => {
-            let video = await axios.get(clip.videoMp4url, {
-                responseType: 'stream'
-            })
-            console.log(`> [downloader-robot] Criando ${clip.slug}.mp4`)
-            video.data.pipe(fs.createWriteStream(`./temp/${clip.slug}.mp4`))
-        });
-    
-        await Promise.all(promises);
-    }
+        
+        return Promise.all(content.clips.map(async (clip) => {
+            return Promise.all([
+                new Promise(async (resolve, reject) => {
+                    let stream = await axios.get(clip.videoMp4url, {responseType: 'stream' })
+                        stream.data.pipe(fs.createWriteStream(`./temp/${clip.slug}.mp4`))                    
+                        .on('finish', () => {
+                            resolve("Promised resolved");
+                        })
+                        .on('error', (error) => {
+                            reject('Error in creating map', error);
+                        })
+                })
+            ])
+        }))
 
+
+                
+    } 
+
+    function createVideoFile(stream) {
+        return new Promise((resolve, reject) =>{
+            stream.on('end', resolve(`> [downloader-robot] ${stream} was downloaded successful`))
+            stream.on('error', reject)
+        })
+    }
 }
 
 module.exports = robot
