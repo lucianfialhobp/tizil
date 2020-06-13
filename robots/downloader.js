@@ -34,13 +34,16 @@ async function robot() {
             return Promise.all([
                 new Promise(async (resolve, reject) => {
                     let stream = await axios.get(clip.videoMp4url, {responseType: 'stream' })
-                        stream.data.pipe(fs.createWriteStream(`./temp/${clip.slug}.mp4`))                    
-                        .on('finish', () => {
-                            resolve("Promised resolved");
-                        })
-                        .on('error', (error) => {
-                            reject('Error in creating map', error);
-                        })
+                        stream.data
+                            .pipe(fs.createWriteStream(`./temp/${clip.slug}.mp4`))                    
+                            .on('finish', () => {
+                                console.log(`${clip.slug} was created`)
+                                resolve("Promised resolved");
+                            })
+                            .on('error', (error) => {
+                                console.log(error)
+                                reject('Error in creating map', error);
+                            })
                 })
             ])
         }))

@@ -47,16 +47,17 @@
 
     var render = function(composition){
         var video = new File("C:\\Code\\jarvis\\temp\\output.mov"),
-               theRender = app.project.renderQueue.items.add(composition);
+            theRender = app.project.renderQueue.items.add(composition);
            
-           //theRender.outputModules[1].applyTemplate("MOV");
+            //theRender.outputModules[1].applyTemplate("MOV");
             theRender.outputModules[1].file = video;
             app.endUndoGroup();
-            app.project.renderQueue.render();
+            app.project.renderQueue.queueInAME(true);
 
             app.project.close(CloseOptions.DO_NOT_SAVE_CHANGES);
     }
 
+            
     var init = function(){
             importVideoFiles(videoFolder);
             var composition = insertVideosToComposition();

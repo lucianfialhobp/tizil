@@ -19,7 +19,8 @@ async function robot(){
             period: content.period,
             limit: content.limit || '20',
             trending: true,
-            game: content.game
+            game: content.game,
+            language: "pt-br"
         }
 
         const filteredData = returnReqDataFilteredByEmpty(data);
