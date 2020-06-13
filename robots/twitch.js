@@ -35,6 +35,7 @@ async function robot(){
         console.log('> [twitch-robot] Retriving api data ...')
 
         content.clips = await createVideoProperty(response.data.clips)
+
     }
 
     function returnReqDataFilteredByEmpty(data){
@@ -49,8 +50,8 @@ async function robot(){
         return filtered
     }
 
-    function createVideoProperty (clips) {
-        return clips.map(clip => ({ ...clip, videoMp4url: clip.thumbnails.medium.replace(/-preview-480x272.jpg/, '.mp4') }))
+    function createVideoProperty (data) {
+        return data.map(clip => ({ ...clip, videoMp4url: clip.thumbnails.medium.replace(/-preview-480x272.jpg/, '.mp4') }))
     }
 }
 

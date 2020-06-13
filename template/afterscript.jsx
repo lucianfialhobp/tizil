@@ -1,6 +1,6 @@
 ﻿var myApp = (function() {
     // Private
-    var videoFolder = new Folder("C:\\Code\\jarvis\\temp");
+    var videoFolder = new Folder("C:\\Code\\tizil\\temp");
           
     
     var importVideoFiles = function(videoFolder){
@@ -19,8 +19,10 @@
                    visualArray = [];
             
             for(var i = 1; i <= app.project.numItems; i++){
-                visualArray.push(app.project.item(i));
-                duration += app.project.item(i).duration;
+                if(app.project.item(i).width == 1920){
+                    visualArray.push(app.project.item(i));
+                    duration += app.project.item(i).duration;
+                }
             }
         
             return {
@@ -30,23 +32,24 @@
     }
     
    var insertVideosToComposition = function(){
-        var obj = getCompositDurationAndVisualArray(),
-               composition = app.project.items.addComp("Main", 1920, 1080, 1, obj.duration, 30),
+       
+        var obj = getCompositDurationAndVisualArray();
+        var composition = app.project.items.addComp("Main", 1920, 1080, 1, obj.duration, 30),
                startTime = 0;
                
         composition.openInViewer();
  
         for(var i = 0; i < obj.visualArray.length; i++){
-            var thisLayer = composition.layers.add(obj.visualArray[i]);
-                    thisLayer.startTime = startTime;
-                    startTime = thisLayer.outPoint;
+                var thisLayer = composition.layers.add(obj.visualArray[i]);
+                thisLayer.startTime = startTime;
+                startTime = thisLayer.outPoint;
         }
     
         return composition
    }
 
     var render = function(composition){
-        var video = new File("C:\\Code\\jarvis\\temp\\output.mov"),
+        var video = new File("C:\\Code\\tizil\\temp\\output.mov"),
             theRender = app.project.renderQueue.items.add(composition);
            
             //theRender.outputModules[1].applyTemplate("MOV");
