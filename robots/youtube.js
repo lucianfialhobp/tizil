@@ -15,8 +15,10 @@ async function robot() {
   async function authenticateWithOAuth() {
     const webServer = await startWebServer()
     const OAuthClient = await createOAuthClient()
+    
     requestUserConsent(OAuthClient)
     const authorizationToken = await waitForGoogleCallback(webServer)
+    
     await requestGoogleForAccessTokens(OAuthClient, authorizationToken)
     await setGlobalGoogleAuthentication(OAuthClient)
     await stopWebServer(webServer)
@@ -106,7 +108,7 @@ async function robot() {
     const videoFilePath = './temp/output.mp4'
     const videoFileSize = fs.statSync(videoFilePath).size
     const videoTitle = `Hello world! Tizil in da house!`
-    const videoDescription = "This is a video posted by a robot"
+    const videoDescription = createVideoCredits()
 
     const requestParameters = {
       part: 'snippet, status',
@@ -155,6 +157,11 @@ async function robot() {
     console.log(`> [youtube-robot] Thumbnail uploaded!`)
   }
 
+  function createVideoCredits () {
+    return content.clips.map(function(clip){
+      return `${clip.broadcaster.name}: ${clip.broadcaster.channel_url}` 
+    }).join("\n")
+  }
 
 }
 
